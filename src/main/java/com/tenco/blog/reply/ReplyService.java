@@ -10,6 +10,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @RequiredArgsConstructor // final keyword member init
 @Service // IoC 대상
 public class ReplyService {
@@ -36,5 +38,11 @@ public class ReplyService {
 	// 댓글삭제기능
 	public void deleteById(Long id) {
 		replyJPARepository.deleteById(id);
+	}
+	// 댓글 목록 조회
+	public List<Reply> findAll() {
+		List<Reply> replies = replyJPARepository.findAll();
+		log.info("{}", replies.size());
+		return replies;
 	}
 }
