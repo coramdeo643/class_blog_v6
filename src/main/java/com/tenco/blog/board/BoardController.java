@@ -23,9 +23,7 @@ public class BoardController {
     private static final Logger log = LoggerFactory.getLogger(BoardController.class);
     private final BoardService boardService;
 
-    /**
-     * 게시글 수정 화면 요청
-     */
+    // 게시글 수정 화면 요청
     @GetMapping("/board/{id}/update-form")
     public String updateForm(@PathVariable(name = "id") Long boardId,
                              HttpServletRequest request, HttpSession session) {
@@ -36,6 +34,7 @@ public class BoardController {
     }
 
 
+    // 수정 기능
     @PostMapping("/board/{id}/update-form")
     public String update(@PathVariable(name = "id") Long boardId,
                          BoardRequest.UpdateDTO reqDTO,
@@ -51,6 +50,7 @@ public class BoardController {
         return "redirect:/board/" + boardId;
     }
 
+    // 삭제 기능
     @PostMapping("/board/{id}/delete")
     public String delete(@PathVariable(name = "id") Long id, HttpSession session) {
         // 1. 인증 검사
@@ -62,11 +62,13 @@ public class BoardController {
         return "redirect:/";
     }
 
+    // 저장 화면
     @GetMapping("/board/save-form")
     public String saveForm() {
         return "board/save-form";
     }
 
+    // 저장 기능
     @PostMapping("/board/save")
     public String save(BoardRequest.SaveDTO reqDTO, HttpSession session) {
         // 1. 인증검사
@@ -78,6 +80,7 @@ public class BoardController {
         return "redirect:/";
     }
 
+    // 전체보기
     @GetMapping("/")
     public String index(Model model) {
         List<Board> boardList =  boardService.findAll();
@@ -85,6 +88,10 @@ public class BoardController {
         return "index";
     }
 
+
+
+    //TODO 삭제 예정
+    // 상세보기
     @GetMapping("/board/{id}")
     public String detail(@PathVariable(name = "id") Long id, Model model) {
         model.addAttribute("board", boardService.findById(id));

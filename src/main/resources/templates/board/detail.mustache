@@ -18,25 +18,34 @@
     <!-- 게시글내용 -->
     <div>
         <h2><b>{{board.title}}</b></h2>
-        <hr />
+        <hr/>
         <div class="m-4 p-2">
             {{board.content}}
         </div>
     </div>
 
-    <!-- 댓글 -->
+    <!-- 댓글 영역-->
     <div class="card mt-3">
-        <!-- 댓글등록 -->
-        <div class="card-body">
-            <form action="/reply/save" method="post">
-                <input type="hidden" name="boardId" value="{{board.id}}">
-                <textarea class="form-control" rows="2" name="comment"></textarea>
-                <div class="d-flex justify-content-end">
-                    <button type="submit" class="btn btn-outline-primary mt-1">댓글등록</button>
-                </div>
-            </form>
-        </div>
-
+        <!-- 로그인시 댓글등록 보임-->
+        {{#sessionUser}}
+            <div class="card-body">
+                <form action="/reply/save" method="post">
+                    <input type="hidden" name="boardId" value="{{board.id}}">
+                    <textarea class="form-control" rows="2" name="comment"></textarea>
+                    <div class="d-flex justify-content-end">
+                        <button type="submit" class="btn btn-outline-primary mt-1">댓글등록</button>
+                    </div>
+                </form>
+            </div>
+        {{/sessionUser}}
+        <!--        비 로그인시 로그인 안내-->
+        {{^sessionUser}}
+            <div class="card-body text-center">
+                <p class="text-muted mb-0">
+                    댓글을 작성하려면 <a href="/login-form">로그인</a>이 필요합니다.
+                </p>
+            </div>
+        {{/sessionUser}}
         <!-- 댓글목록 -->
         <div class="card-footer">
             <b>댓글리스트</b>
