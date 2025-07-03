@@ -9,7 +9,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -33,17 +35,18 @@ public class ReplyController {
 		// 로그인 > 댓글작성 > 댓글등록 > controller.save > service.save > JpaRepository.save
 	}
 
-	// 댓글 전체 조회 기능요청
-	@GetMapping("/board/detail")
-	public String replyList(Model model) {
-		List<Reply> replies = replyService.findAll();
-//		model.addAttribute("replyList", replyService.findAll());
-		return "board/detail";
+	@PostMapping("/reply/{id}/delete")
+	public String delete(@PathVariable(name = "id") Long replyId,
+						 @RequestParam(name = "boardId") Long boardId,
+						 HttpSession session) {
+		User sessionUser = (User) session.getAttribute(Define.SESSION_USER);
+		replyService.deleteById(replyId, sessionUser);
+		return "redirect:/board/" + boardId;
 	}
 }
 // 댓글 작성 조건
 /*
 1. 로그인이 되어 있어야
 2. 로그인이 안되면 다른 디자인
-3. 내가 작성한 댓글 내가 삭제가능
+3. 로그인한 유저가 작성한 댓글은 본인이 삭제가능해야한다
  */

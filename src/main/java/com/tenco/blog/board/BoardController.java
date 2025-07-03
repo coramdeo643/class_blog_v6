@@ -88,13 +88,13 @@ public class BoardController {
         return "index";
     }
 
-
-
-    //TODO 삭제 예정
     // 상세보기
     @GetMapping("/board/{id}")
-    public String detail(@PathVariable(name = "id") Long id, Model model) {
-        model.addAttribute("board", boardService.findById(id));
+    public String detail(@PathVariable(name = "id") Long id, Model model, HttpSession session) {
+        User sessionUser = (User) session.getAttribute(Define.SESSION_USER);
+        Board board = boardService.findByIdWithReplies(id, sessionUser);
+        // model.addAttribute("board", boardService.findById(id)); 예전 코드
+        model.addAttribute("board", board);
         return "board/detail";
     }
 }
