@@ -24,8 +24,9 @@ public class ReplyRequest {
 			}
 		}
 		/**
-		 * 보통 SAFE DTO에 toEntity 메서드를 만들게 된다
-		 * 멤버 변수가 없는 사
+		 * 보통 SAVE DTO에 toEntity 메서드를 만들게 된다
+		 * 멤버 변수에 없는 데이터가 필요할 때는
+		 * 외부에서 주입 받으면 된다.
 		 */
 		public Reply toEntity(User sessionUser, Board board) {
 			return Reply.builder()
